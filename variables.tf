@@ -45,3 +45,27 @@ variable "tags" {
   description = "Tags to apply to all resources"
   default = null
 }
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID to deploy n8n into (optional, creates new VPC if not provided)"
+  default     = null
+}
+
+variable "subnet_ids" {
+  type        = list(string)
+  description = "Subnet IDs for ECS tasks (optional, uses VPC subnets if not provided)"
+  default     = []
+}
+
+variable "public_subnet_ids" {
+  type        = list(string)
+  description = "Public subnet IDs for ALB (optional, uses VPC public subnets if not provided)"
+  default     = []
+}
+
+variable "use_private_subnets" {
+  type        = bool
+  description = "Whether to deploy ECS tasks in private subnets (requires NAT Gateway or VPC endpoints for internet access)"
+  default     = false
+}
