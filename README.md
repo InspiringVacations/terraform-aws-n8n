@@ -60,6 +60,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_alb_allowed_cidr_blocks"></a> [alb\_allowed\_cidr\_blocks](#input\_alb\_allowed\_cidr\_blocks) | List of CIDR blocks allowed to access the ALB (default: allows all traffic) | `list(string)` | `["0.0.0.0/0"]` | no |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | Certificate ARN for HTTPS support | `string` | `null` | no |
 | <a name="input_container_image"></a> [container\_image](#input\_container\_image) | Container image to use for n8n | `string` | `"n8nio/n8n:1.4.0"` | no |
 | <a name="input_desired_count"></a> [desired\_count](#input\_desired\_count) | Desired count of n8n tasks, be careful with this to make it more than 1 as it can cause issues with webhooks not registering properly | `number` | `1` | no |

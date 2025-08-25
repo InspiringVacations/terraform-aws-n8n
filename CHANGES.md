@@ -9,7 +9,8 @@ Modified the terraform-aws-n8n module to support using existing VPC infrastructu
 - Added `vpc_id` variable (optional, string, default: null)
 - Added `subnet_ids` variable (optional, list(string), default: [])  
 - Added `public_subnet_ids` variable (optional, list(string), default: [])
-- **NEW**: Added `use_private_subnets` variable (optional, bool, default: false)
+- Added `use_private_subnets` variable (optional, bool, default: false)
+- **NEW**: Added `alb_allowed_cidr_blocks` variable (optional, list(string), default: ["0.0.0.0/0"])
 
 ### 2. `vpc.tf`
 - Added data sources for existing VPC (`aws_vpc.existing`)
@@ -24,6 +25,7 @@ Modified the terraform-aws-n8n module to support using existing VPC infrastructu
 - Updated ALB to use `local.public_subnets` instead of `module.vpc.public_subnets`
 - Updated target group to use `local.vpc_id` instead of `module.vpc.vpc_id`
 - Updated security group egress to use `local.vpc_cidr_block`
+- **NEW**: Updated ALB security group ingress rules to use `var.alb_allowed_cidr_blocks` for IP filtering
 
 ### 4. `ecs.tf`
 - Updated security group to use `local.vpc_id` instead of `module.vpc.vpc_id`
@@ -38,7 +40,8 @@ Modified the terraform-aws-n8n module to support using existing VPC infrastructu
 
 ### 6. `examples/` (Updated Directory)
 - Updated `existing-vpc.tf` - Shows public subnet usage (default)
-- **NEW**: Created `existing-vpc-private-subnets.tf` - Shows private subnet usage
+- Created `existing-vpc-private-subnets.tf` - Shows private subnet usage
+- **NEW**: Created `ip-filtering.tf` - Shows ALB IP filtering usage
 - Kept `new-vpc.tf` - Example showing default behavior (new VPC)
 
 ### 7. `README.md`
@@ -78,6 +81,23 @@ module "n8n" {
   
   # No VPC parameters needed - will create new VPC
   # use_private_subnets = false (default)
+}
+```
+
+### 4. Using Existing VPC with IP Filtering (Enhanced Security)
+```hcl
+module "n8n" {
+  source = "path/to/module"
+  
+  vpc_id = "vpc-12345678"
+  use_private_subnets = true
+  
+  # Restrict access to specific IP ranges
+  alb_allowed_cidr_blocks = [
+    "203.0.113.0/24",    # Office network
+    "198.51.100.0/24",   # VPN network
+    "192.0.2.100/32"     # Specific admin IP
+  ]
 }
 ```
 

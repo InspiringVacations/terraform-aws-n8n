@@ -69,3 +69,9 @@ variable "use_private_subnets" {
   description = "Whether to deploy ECS tasks in private subnets (requires NAT Gateway or VPC endpoints for internet access)"
   default     = false
 }
+
+variable "alb_allowed_cidr_blocks" {
+  type        = list(string)
+  description = "List of CIDR blocks allowed to access the ALB (default: allows all traffic)"
+  default     = ["0.0.0.0/0"]
+}
