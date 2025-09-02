@@ -43,7 +43,7 @@ variable "ssl_policy" {
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to all resources"
-  default = null
+  default     = null
 }
 
 variable "vpc_id" {
@@ -74,4 +74,16 @@ variable "alb_allowed_cidr_blocks" {
   type        = list(string)
   description = "List of CIDR blocks allowed to access the ALB (default: allows all traffic)"
   default     = ["0.0.0.0/0"]
+}
+
+variable "cpu" {
+  type        = number
+  description = "CPU units for the Fargate task (256, 512, 1024, 2048, 4096)"
+  default     = 256
+}
+
+variable "memory" {
+  type        = number
+  description = "Memory (MB) for the Fargate task"
+  default     = 512
 }

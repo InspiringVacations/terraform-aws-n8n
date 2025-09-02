@@ -62,7 +62,7 @@ resource "aws_ecs_task_definition" "taskdef" {
         logDriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.logs.name
-          awslogs-region        = data.aws_region.current.name
+          awslogs-region        = data.aws_region.current.id
           awslogs-stream-prefix = "n8n"
         }
       }
@@ -82,8 +82,8 @@ resource "aws_ecs_task_definition" "taskdef" {
   }
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 256
-  memory                   = 512
+  cpu                      = var.cpu
+  memory                   = var.memory
 
   tags = var.tags
 }
